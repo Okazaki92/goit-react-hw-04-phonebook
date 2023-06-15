@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Notiflix from "notiflix";
 import { nanoid } from "nanoid";
 import { ContactForm } from "./ContactForm/ContactForm";
@@ -9,6 +9,17 @@ import "./App.css";
 export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+  useEffect(() => {
+    const storedContacts = JSON.parse(localStorage.getItem("contacts"));
+    if (storedContacts) {
+      setContacts(storedContacts);
+    }
+  }, []);
 
   const addContact = ({ name, number }) => {
     const isContactExist = contacts.find(
