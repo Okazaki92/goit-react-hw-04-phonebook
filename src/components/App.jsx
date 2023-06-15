@@ -8,11 +8,14 @@ import "./App.css";
 
 export const App = () => {
   const storedContacts = JSON.parse(localStorage.getItem("contacts"));
-  const [contacts, setContacts] = useState(storedContacts);
+  const [contacts, setContacts] = useState(storedContacts || []);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    if ((prev) => prev !== contacts) {
+      console.log(contacts);
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
   }, [contacts]);
 
   const addContact = ({ name, number }) => {
